@@ -1,4 +1,4 @@
--- This script creates a GUI with a roll button at the bottom of the screen, and the player can choose to equip or delete the item
+-- This script creates a GUI with the rolled rarity displayed in the middle of the screen, and options to equip and delete right under it
 
 local player = game.Players.LocalPlayer
 local gui = Instance.new("ScreenGui")
@@ -6,23 +6,23 @@ gui.IgnoreGuiInset = true
 gui.Parent = player.PlayerGui
 
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 200, 0, 100)
-frame.Position = UDim2.new(0.5, -100, 1, -120)
+frame.Size = UDim2.new(0, 200, 0, 200)
+frame.Position = UDim2.new(0.5, -100, 0.5, -100)
 frame.BackgroundTransparency = 1
 frame.BorderSizePixel = 0
 frame.Parent = gui
 
-local rollButton = Instance.new("TextButton")
-rollButton.Size = UDim2.new(0, 150, 0, 50)
-rollButton.Position = UDim2.new(0.5, -75, 0, 25)
-rollButton.BackgroundColor3 = Color3.new(0, 0.5, 0)
-rollButton.BorderSizePixel = 0
-rollButton.Text = "Roll"
-rollButton.Parent = frame
+local rarityText = Instance.new("TextLabel")
+rarityText.Size = UDim2.new(1, 0, 0, 50)
+rarityText.Position = UDim2.new(0, 0, 0.2, 0)
+rarityText.BackgroundColor3 = Color3.new(1, 1, 1)
+rarityText.BorderSizePixel = 0
+rarityText.Text = ""
+rarityText.Parent = frame
 
 local equipButton = Instance.new("TextButton")
-equipButton.Size = UDim2.new(0, 70, 0, 30)
-equipButton.Position = UDim2.new(0.2, 0, 0, 0)
+equipButton.Size = UDim2.new(0, 150, 0, 50)
+equipButton.Position = UDim2.new(0.5, -75, 0.5, -25)
 equipButton.BackgroundColor3 = Color3.new(0, 0.5, 0.5)
 equipButton.BorderSizePixel = 0
 equipButton.Text = "Equip"
@@ -30,8 +30,8 @@ equipButton.Visible = false
 equipButton.Parent = frame
 
 local deleteButton = Instance.new("TextButton")
-deleteButton.Size = UDim2.new(0, 70, 0, 30)
-deleteButton.Position = UDim2.new(0.6, 0, 0, 0)
+deleteButton.Size = UDim2.new(0, 150, 0, 50)
+deleteButton.Position = UDim2.new(0.5, -75, 0.75, -25)
 deleteButton.BackgroundColor3 = Color3.new(0.5, 0, 0)
 deleteButton.BorderSizePixel = 0
 deleteButton.Text = "Delete"
@@ -83,36 +83,25 @@ local function applySpecialEffect()
     -- For example, you can create a burst of particles or play a sound
 end
 
-local function showNameOverHead(rarity)
-    local name = rarityNames[rarity]
-    local billboard = Instance.new("BillboardGui")
-    billboard.AlwaysOnTop = true
-    billboard.StudsOffset = Vector3.new(0, 3, 0)
-    billboard.Size = UDim2.new(2, 0, 1, 0)
-    billboard.Parent = player.Character.Head
-    
-    local nameTag = Instance.new("TextLabel")
-    nameTag.BackgroundTransparency = 1
-    nameTag.Size = UDim2.new(1, 0, 1, 0)
-    nameTag.Text = name
-    nameTag.Font = Enum.Font.SourceSansBold
-    nameTag.TextSize = 20
-    nameTag.TextColor3 = Color3.new(1, 1, 1)
-    nameTag.Parent = billboard
-    
-    wait(5) -- Duration of the name display
-    billboard:Destroy()
+local function showRarityText(rarity)
+    rarityText.Text = rarityNames[rarity]
+end
+
+local function clearRarityText()
+    rarityText.Text = ""
 end
 
 rollButton.MouseButton1Click:Connect(function()
     local rarity = math.random(1, 5) -- Replace this with your rarity roll logic
     print("Rolled rarity: " .. rarity)
     
+    showRarityText(rarity)
+    
     if rarity <= 3 then
         equipButton.Visible = true
-        deleteButton.Visible = false
+        deleteButton.Visible = true
     else
-        equipButton.Visible = false
+        equipButton.Visible = true
         deleteButton.Visible = true
         applySpecialEffect()  -- Apply special effect for rare rarity
     end
@@ -122,14 +111,15 @@ equipButton.MouseButton1Click:Connect(function()
     local rarity = math.random(1, 5) -- Replace this with the rarity of the equipped item
     print("Equipping item with rarity: " .. rarity)
     applyRarityEffects(rarity)
-    showNameOverHead(rarity)
     
+    clearRarityText()
     equipButton.Visible = false
     deleteButton.Visible = false
 end)
 
 deleteButton.MouseButton1Click:Connect(function()
     print("Deleting item")
+    clearRarityText()
     equipButton.Visible = false
     deleteButton.Visible = false
 end)
