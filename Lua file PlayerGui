@@ -67,6 +67,12 @@ local function applyRarityEffects(rarity)
     effect:Destroy()
 end
 
+local function applySpecialEffect()
+    -- Add your special effect here
+    print("Applying special effect for rare rarity!")
+    -- For example, you can create a burst of particles or play a sound
+end
+
 rollButton.MouseButton1Click:Connect(function()
     local rarity = math.random(1, 5) -- Replace this with your rarity roll logic
     print("Rolled rarity: " .. rarity)
@@ -77,6 +83,7 @@ rollButton.MouseButton1Click:Connect(function()
     else
         equipButton.Visible = false
         deleteButton.Visible = true
+        applySpecialEffect()  -- Apply special effect for rare rarity
     end
 end)
 
