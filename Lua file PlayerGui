@@ -1,0 +1,96 @@
+-- This script creates a GUI with a roll button and equip/delete buttons, each rarity has a different aura and effect applied when equipped
+
+local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui")
+gui.Parent = player.PlayerGui
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 200, 0, 200)
+frame.Position = UDim2.new(0.5, -100, 0.5, -100)
+frame.BackgroundColor3 = Color3.new(0, 0, 0)
+frame.BorderSizePixel = 0
+frame.Parent = gui
+
+local rollButton = Instance.new("TextButton")
+rollButton.Size = UDim2.new(0, 150, 0, 50)
+rollButton.Position = UDim2.new(0.5, -75, 0.1, 0)
+rollButton.BackgroundColor3 = Color3.new(0, 0.5, 0)
+rollButton.BorderSizePixel = 0
+rollButton.Text = "Roll"
+rollButton.Parent = frame
+
+local equipButton = Instance.new("TextButton")
+equipButton.Size = UDim2.new(0, 70, 0, 30)
+equipButton.Position = UDim2.new(0.2, 0, 0.8, 0)
+equipButton.BackgroundColor3 = Color3.new(0, 0.5, 0.5)
+equipButton.BorderSizePixel = 0
+equipButton.Text = "Equip"
+equipButton.Visible = false
+equipButton.Parent = frame
+
+local deleteButton = Instance.new("TextButton")
+deleteButton.Size = UDim2.new(0, 70, 0, 30)
+deleteButton.Position = UDim2.new(0.6, 0, 0.8, 0)
+deleteButton.BackgroundColor3 = Color3.new(0.5, 0, 0)
+deleteButton.BorderSizePixel = 0
+deleteButton.Text = "Delete"
+deleteButton.Visible = false
+deleteButton.Parent = frame
+
+local rarityEffects = {
+    [1] = {AuraColor = Color3.fromRGB(255, 0, 0), Effect = "Fire"},
+    [2] = {AuraColor = Color3.fromRGB(0, 255, 0), Effect = "Sparkles"},
+    [3] = {AuraColor = Color3.fromRGB(0, 0, 255), Effect = "Smoke"},
+    [4] = {AuraColor = Color3.fromRGB(255, 255, 0), Effect = "Neon"},
+    [5] = {AuraColor = Color3.fromRGB(255, 0, 255), Effect = "Glow"},
+    -- Add more rarities and effects as needed
+}
+
+local function applyRarityEffects(rarity)
+    local aura = Instance.new("ParticleEmitter")
+    aura.Parent = player.Character.HumanoidRootPart
+    aura.Color = rarityEffects[rarity].AuraColor
+    aura.Texture = "http://www.roblox.com/asset/?id=546494090"
+    aura.Size = NumberSequence.new(2)
+    aura.Lifetime = NumberRange.new(5)
+    aura.Rate = 5
+    aura.Speed = NumberRange.new(10)
+    
+    local effect = Instance.new("Smoke")
+    effect.Parent = player.Character.HumanoidRootPart
+    effect.Color = rarityEffects[rarity].AuraColor
+    effect.Size = 10
+    effect.RiseVelocity = 5
+    
+    wait(5) -- Duration of the effect
+    aura:Destroy()
+    effect:Destroy()
+end
+
+rollButton.MouseButton1Click:Connect(function()
+    local rarity = math.random(1, 5) -- Replace this with your rarity roll logic
+    print("Rolled rarity: " .. rarity)
+    
+    if rarity <= 3 then
+        equipButton.Visible = true
+        deleteButton.Visible = false
+    else
+        equipButton.Visible = false
+        deleteButton.Visible = true
+    end
+end)
+
+equipButton.MouseButton1Click:Connect(function()
+    local rarity = math.random(1, 5) -- Replace this with the rarity of the equipped item
+    print("Equipping item with rarity: " .. rarity)
+    applyRarityEffects(rarity)
+    
+    equipButton.Visible = false
+    deleteButton.Visible = false
+end)
+
+deleteButton.MouseButton1Click:Connect(function()
+    print("Deleting item")
+    equipButton.Visible = false
+    deleteButton.Visible = false
+end)
