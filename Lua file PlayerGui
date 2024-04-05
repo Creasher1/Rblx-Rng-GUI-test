@@ -22,7 +22,7 @@ rarityText.Parent = frame
 
 local equipButton = Instance.new("TextButton")
 equipButton.Size = UDim2.new(0, 150, 0, 50)
-equipButton.Position = UDim2.new(0.5, -75, 0.5, -25)
+equipButton.Position = UDim2.new(0.5, -75, 0.7, -25)
 equipButton.BackgroundColor3 = Color3.new(0, 0.5, 0.5)
 equipButton.BorderSizePixel = 0
 equipButton.Text = "Equip"
@@ -31,7 +31,7 @@ equipButton.Parent = frame
 
 local deleteButton = Instance.new("TextButton")
 deleteButton.Size = UDim2.new(0, 150, 0, 50)
-deleteButton.Position = UDim2.new(0.5, -75, 0.75, -25)
+deleteButton.Position = UDim2.new(0.5, -75, 0.8, -25)
 deleteButton.BackgroundColor3 = Color3.new(0.5, 0, 0)
 deleteButton.BorderSizePixel = 0
 deleteButton.Text = "Delete"
@@ -84,7 +84,7 @@ local function applySpecialEffect()
 end
 
 local function showRarityText(rarity)
-    rarityText.Text = rarityNames[rarity]
+    rarityText.Text = "Rarity: " .. rarityNames[rarity]
 end
 
 local function clearRarityText()
