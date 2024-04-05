@@ -12,6 +12,12 @@ frame.BackgroundTransparency = 1
 frame.BorderSizePixel = 0
 frame.Parent = gui
 
+local background = Instance.new("Frame")
+background.Size = UDim2.new(1, 0, 1, 0)
+background.BackgroundColor3 = Color3.new(0, 0, 0)
+background.BackgroundTransparency = 0.5
+background.Parent = frame
+
 local rarityText = Instance.new("TextLabel")
 rarityText.Size = UDim2.new(1, 0, 0, 50)
 rarityText.Position = UDim2.new(0, 0, 0.2, 0)
@@ -37,6 +43,16 @@ deleteButton.BorderSizePixel = 0
 deleteButton.Text = "Delete"
 deleteButton.Visible = false
 deleteButton.Parent = frame
+
+local rollButton = Instance.new("TextButton")
+rollButton.Size = UDim2.new(0, 150, 0, 50)
+rollButton.Position = UDim2.new(0.5, -75, 0.5, -25)
+rollButton.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
+rollButton.BorderSizePixel = 0
+rollButton.Text = "Roll"
+rollButton.TextColor3 = Color3.new(1, 1, 1)
+rollButton.FontSize = Enum.FontSize.Size24
+rollButton.Parent = frame
 
 local rarityNames = {
     [1] = "Diamond",
